@@ -25,44 +25,43 @@
 
         sendForm: function () {
 
+            var self = this;
+
             var name = $('#fname').val().trim();
             var email = $('#umail').val().trim();
             var phone = $('#phone').val().trim();
             var message = $('#exampleFormControlTextarea1').val().trim();
 
-            // Basic validation
+            // remove old message
+            $('.form-message').remove();
+
+            // validation
             if (!name || !email || !phone || !message) {
-                alert("Please fill all fields!");
+                showMessage("Please fill all fields!", "error");
                 return;
             }
 
             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                alert("Please enter a valid email!");
+                showMessage("Please enter a valid email!", "error");
                 return;
             }
 
-            // Show loading state
-            var btn = $(this.form + ' button[type="submit"]');
+            var btn = $(self.form + ' button[type="submit"]');
             btn.prop('disabled', true).text('Sending...');
 
-          var btn = $(self.form + ' button[type="submit"]');
-
             emailjs.send(
-    this.emailjsConfig.serviceId,
-    this.emailjsConfig.templateId,
-    {
-        fname: name,
-        umail: email,
-        phone: phone,
-        exampleFormControlTextarea1: message
-    },
-    this.emailjsConfig.publicKey
-)
-            .then(function (response) {
-
-                alert("Message sent successfully!");
-                console.log("SUCCESS", response);
+                self.emailjsConfig.serviceId,
+                self.emailjsConfig.templateId,
+                {
+                    fname: name,
+                    umail: email,
+                    phone: phone,
+                    exampleFormControlTextarea1: message
+                },
+                self.emailjsConfig.publicKey
+            )
+            .then(function () {
 
                 // reset form
                 $('#fname').val('');
@@ -70,15 +69,27 @@
                 $('#phone').val('');
                 $('#exampleFormControlTextarea1').val('');
 
-                btn.prop('disabled', false).text('Submit');
+                showMessage("Message sent successfully!", "success");
 
-            }, function (error) {
-
-                alert("Failed to send message!");
+            })
+            .catch(function (error) {
                 console.log("ERROR", error);
-
+                showMessage("Failed to send message!", "error");
+            })
+            .finally(function () {
                 btn.prop('disabled', false).text('Submit');
             });
+
+            // message function
+            function showMessage(text, type) {
+                var color = (type === "success") ? "green" : "red";
+
+                $(self.form).after(
+                    '<div class="form-message" style="margin-top:10px;color:' + color + ';font-weight:600;">'
+                    + text +
+                    '</div>'
+                );
+            }
         }
     };
 
