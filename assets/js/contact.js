@@ -46,19 +46,19 @@
             var btn = $(this.form + ' button[type="submit"]');
             btn.prop('disabled', true).text('Sending...');
 
-            var self = this;
+          var btn = $(self.form + ' button[type="submit"]');
 
             emailjs.send(
-                this.emailjsConfig.serviceId,
-                this.emailjsConfig.templateId,
-                {
-                    name: name,
-                    email: email,
-                    number: phone,
-                    message: message
-                },
-                this.emailjsConfig.publicKey
-            )
+    this.emailjsConfig.serviceId,
+    this.emailjsConfig.templateId,
+    {
+        fname: name,
+        umail: email,
+        phone: phone,
+        exampleFormControlTextarea1: message
+    },
+    this.emailjsConfig.publicKey
+)
             .then(function (response) {
 
                 alert("Message sent successfully!");
