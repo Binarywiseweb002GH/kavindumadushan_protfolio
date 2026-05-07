@@ -2404,3 +2404,18 @@ footer .ms-footer-detail .ms-social ul li a:hover {
   align-items: center;
   justify-content: center;
 }
+.ms-box .fill {
+    stroke: #ff4da6; /* pink color */
+}
+
+.ms-box h3 {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #ff4da6;
+    font-weight: 600;
+}
+
+.ms-box .value {
+    fill: #ff4da6;
+    font-size: 14px;
+}
